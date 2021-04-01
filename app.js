@@ -3,16 +3,15 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const config = require('./config');
 const passport = require('passport');
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const partyRouter = require('./routes/partyRouter');
 
 const mongoose = require('mongoose');
+require('dotenv').config()
 
-const url = config.mongoUrl;
+const url = process.env.MONGO_URL;
 const connect = mongoose.connect(url);
 
 connect
