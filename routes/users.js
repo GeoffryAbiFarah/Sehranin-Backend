@@ -4,11 +4,11 @@ var User = require('../models/user');
 var passport = require('passport');
 var authenticate = require('../authenticate');
 const bodyParser = require('body-parser');
-
+const cors = require('./cors');
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', cors.corsWithOptions,authenticate.verifyUser, authenticate.verifyAdmin, function (req, res, next) {
   User.find({})
     .then((users) => {
       res.statusCode = 200;
@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 });
 
 // User signup
-router.post('/signup', function (req, res, next) {
+router.post('/signup',cors.corsWithOptions, function (req, res, next) {
   User.register(new User({ username: req.body.username }),
     req.body.password, (err, user) => {
       if (err) {
@@ -28,23 +28,14 @@ router.post('/signup', function (req, res, next) {
         res.json({ err: err });
       }
       else {
-        if (req.body.name) {
-          user.name = req.body.name;
-        }
         if (req.body.image) {
           user.image = req.body.image;
         }
         if (req.body.email) {
           user.email = req.body.email;
         }
-        if (req.body.age) {
-          user.age = req.body.age;
-        }
         if (req.body.phone) {
           user.phone = req.body.phone;
-        }
-        if (req.body.description) {
-          user.description = req.body.description;
         }
         user.save((err, user) => {
           if (err) {
@@ -64,7 +55,7 @@ router.post('/signup', function (req, res, next) {
 });
 
 // user by id
-router.get('/id/:userId', authenticate.verifyUser, function (req, res, next) {
+router.get('/id/:userId', cors.corsWithOptions,authenticate.verifyUser, function (req, res, next) {
   User.findById(req.params.userId)
       .then((user) => {
           res.statusCode = 200;
@@ -74,7 +65,7 @@ router.get('/id/:userId', authenticate.verifyUser, function (req, res, next) {
       .catch((err) => next(err));
 });
 
-router.put('/id/:userId', authenticate.verifyUser, function (req, res, next) {
+router.put('/id/:userId',cors.corsWithOptions, authenticate.verifyUser, function (req, res, next) {
   User.findById(req.params.userId)
     .then((user) => {
         if (user === null) {
@@ -114,7 +105,7 @@ router.put('/id/:userId', authenticate.verifyUser, function (req, res, next) {
     .catch((err) => next(err));
 });
 
-router.delete('/id/:userId', authenticate.verifyUser, function (req, res, next) {
+router.delete('/id/:userId',cors.corsWithOptions, authenticate.verifyUser, function (req, res, next) {
   User.findById(req.params.userId)
     .then((user) => {
         if (user === null) {
@@ -150,7 +141,7 @@ router.delete('/id/:userId', authenticate.verifyUser, function (req, res, next) 
 });
 
 // User login
-router.post('/login', passport.authenticate('local'), (req, res) => {
+router.post('/login',cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
   var token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');

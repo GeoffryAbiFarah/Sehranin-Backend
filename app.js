@@ -7,6 +7,7 @@ const passport = require('passport');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const partyRouter = require('./routes/partyRouter');
+var authenticate = require('./authenticate');
 
 const mongoose = require('mongoose');
 require('dotenv').config()

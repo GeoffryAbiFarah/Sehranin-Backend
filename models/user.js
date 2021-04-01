@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const User = new Schema({
-    name: {
+    username: {
         type: String,
-        default: ''
+        required: true
     },
     email: {
         type: String,
@@ -18,7 +18,7 @@ const User = new Schema({
     },
     verified: {
         type: Boolean,
-        default: true
+        default: false
     },
     admin: {
         type: Boolean,
