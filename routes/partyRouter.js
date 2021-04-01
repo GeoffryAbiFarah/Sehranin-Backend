@@ -80,8 +80,8 @@ partyRouter.route('/id/:partyId')
                     if (req.body.image) {
                         party.image = req.body.image;
                     }
-                    if (req.body.description) {
-                        party.image = req.body.image;
+                    if (req.body.date) {
+                        party.date = req.body.date;
                     }
                     party.save()
                         .then((party) => {
@@ -90,7 +90,7 @@ partyRouter.route('/id/:partyId')
                                 .then((party) => {
                                     res.statusCode = 200;
                                     res.setHeader('Content-Type', 'application/json');
-                                    res.json(dish);
+                                    res.json(party);
                                 })
                         }, (err) => next(err));
                 }
@@ -126,7 +126,7 @@ partyRouter.route('/id/:partyId')
                                 .then((party) => {
                                     res.statusCode = 200;
                                     res.setHeader('Content-Type', 'application/json');
-                                    res.json(dish);
+                                    res.json(party);
                                 })
                         }, (err) => next(err));
                 }
