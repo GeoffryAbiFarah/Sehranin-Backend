@@ -8,24 +8,11 @@ const User = new Schema({
         type: String,
         default: ''
     },
-    image: {
-        type: String,
-        default: "../public/images/default.jpeg"
-    },
     email: {
         type: String,
         required: false
     },
-    age: {
-        type: Number,
-        required: false,
-        min: 16
-    },
     phone: {
-        type: String,
-        default: ''
-    },
-    description: {
         type: String,
         default: ''
     },
