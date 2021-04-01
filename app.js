@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const partyRouter = require('./routes/partyRouter');
 var authenticate = require('./authenticate');
+const fileUpload = require('express-fileupload');
 
 const mongoose = require('mongoose');
 require('dotenv').config()
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
 // authentication
 app.use(passport.initialize());

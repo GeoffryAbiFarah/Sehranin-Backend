@@ -23,6 +23,17 @@ partyRouter.route('/')
     })
     .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         req.body.author = req.user._id;
+        if (req.body.image) {
+            const myImage = req.body.image;
+            myImage.mv(`../public/images/${myImage.name}`, function (err) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send({ msg: "Error occured" });
+                }
+                // returing the response with file path and name
+                return res.send({ name: myFile.name, path: `/${myImage.name}` });
+            });
+        }
         Parties.create(req.body)
             .then((party) => {
                 res.statusCode = 200;
