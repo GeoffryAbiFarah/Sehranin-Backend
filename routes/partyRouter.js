@@ -22,6 +22,7 @@ partyRouter.route('/')
     })
     .post(authenticate.verifyUser, (req, res, next) => {
         req.body.author = req.user._id;
+        console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
         Parties.create(req.body)
             .then((party) => {
                 res.statusCode = 200;
