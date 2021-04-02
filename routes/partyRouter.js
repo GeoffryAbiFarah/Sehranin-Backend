@@ -26,8 +26,8 @@ partyRouter.route('/')
 
         console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
 
-        if (req.body.image) {
-            const myImage = req.body.image;
+        if (req.files.image) {
+            const myImage = req.files.image;
             myImage.mv(`../public/images/${myImage.name}`, function (err) {
                 if (err) {
                     console.log(err)
