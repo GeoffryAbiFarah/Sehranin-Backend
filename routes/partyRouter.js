@@ -39,6 +39,7 @@ partyRouter.route('/')
         // }
 
         Parties.create(req.body)
+            .populate('party.author')
             .then((party) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
