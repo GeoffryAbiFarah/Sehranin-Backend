@@ -26,17 +26,17 @@ partyRouter.route('/')
 
         console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
 
-        if (req.files.image) {
-            const myImage = req.files.image;
-            myImage.mv(`../public/images/${myImage.name}`, function (err) {
-                if (err) {
-                    console.log(err)
-                    return res.status(500).send({ msg: "Error occured" });
-                }
-                // returing the response with file path and name
-                return res.send({ name: myFile.name, path: `/${myImage.name}` });
-            });
-        }
+        // if (req.files.image) {
+        //     const myImage = req.files.image;
+        //     myImage.mv(`../public/images/${myImage.name}`, function (err) {
+        //         if (err) {
+        //             console.log(err)
+        //             return res.status(500).send({ msg: "Error occured" });
+        //         }
+        //         // returing the response with file path and name
+        //         return res.send({ name: myFile.name, path: `/${myImage.name}` });
+        //     });
+        // }
 
         Parties.create(req.body)
             .then((party) => {
