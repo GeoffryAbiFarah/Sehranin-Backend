@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const partyRouter = require('./routes/partyRouter');
 var authenticate = require('./authenticate');
 const fileUpload = require('express-fileupload');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 require('dotenv').config()
@@ -39,7 +40,7 @@ app.use(fileUpload());
 
 // authentication
 app.use(passport.initialize());
-
+app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/parties', partyRouter);
