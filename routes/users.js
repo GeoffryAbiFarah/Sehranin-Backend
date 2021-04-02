@@ -65,7 +65,8 @@ router.get('/id/:userId', cors.corsWithOptions,authenticate.verifyUser, function
       .catch((err) => next(err));
 });
 
-router.put('/id/:userId',cors.corsWithOptions, authenticate.verifyUser, function (req, res, next) {
+router.put('/id/:userId', cors.corsWithOptions, authenticate.verifyUser, function (req, res, next) {
+  console.log(req.params.userId);
   User.findById(req.params.userId)
     .then((user) => {
         if (user === null) {
