@@ -3,14 +3,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Parties = require('../models/party');
 const authenticate = require('../authenticate');
-
+const cors = require('./cors');
 const partyRouter = express.Router();
 
 partyRouter.use(bodyParser.json());
 
 //============================================Router for /parties=================================================
 partyRouter.route('/')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors, (req, res, next) => {
         Parties.find()
             .populate('party.author')
             .then((parties) => {
@@ -20,9 +21,23 @@ partyRouter.route('/')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(authenticate.verifyUser, (req, res, next) => {
+    .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         req.body.author = req.user._id;
+<<<<<<< HEAD
         console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
+=======
+        if (req.body.image) {
+            const myImage = req.body.image;
+            myImage.mv(`../public/images/${myImage.name}`, function (err) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send({ msg: "Error occured" });
+                }
+                // returing the response with file path and name
+                return res.send({ name: myFile.name, path: `/${myImage.name}` });
+            });
+        }
+>>>>>>> 33235bb9e09c8ea3b6207f84f3e972e69f38d4fc
         Parties.create(req.body)
             .then((party) => {
                 res.statusCode = 200;
@@ -31,11 +46,11 @@ partyRouter.route('/')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .put(authenticate.verifyUser, (req, res, next) => {
+    .put(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         res.statusCode = 403;
         res.end("Update operation not supported for /parties.");
     })
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .delete(cors.corsWithOptions,authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Parties.remove()
             .then((resp) => {
                 res.statusCode = 200;
@@ -47,7 +62,7 @@ partyRouter.route('/')
 
 //========================================Router for /parties/partyId===================================================
 partyRouter.route('/id/:partyId')
-    .get((req, res, next) => {
+    .get(cors.cors,(req, res, next) => {
         Parties.findById(req.params.partyId)
             .populate('party.author')
             .then((party) => {
@@ -57,11 +72,11 @@ partyRouter.route('/id/:partyId')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .post(authenticate.verifyUser, (req, res, next) => {
+    .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         res.statusCode = 403;
         res.end('Post operation not supported for /parties/' + req.params.partyId + '.')
     })
-    .put(authenticate.verifyUser, (req, res, next) => {
+    .put(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         Parties.findById(req.params.partyId)
             .then((party) => {
                 if (party === null) {
@@ -81,8 +96,8 @@ partyRouter.route('/id/:partyId')
                     if (req.body.image) {
                         party.image = req.body.image;
                     }
-                    if (req.body.description) {
-                        party.image = req.body.image;
+                    if (req.body.date) {
+                        party.date = req.body.date;
                     }
                     party.save()
                         .then((party) => {
@@ -91,7 +106,7 @@ partyRouter.route('/id/:partyId')
                                 .then((party) => {
                                     res.statusCode = 200;
                                     res.setHeader('Content-Type', 'application/json');
-                                    res.json(dish);
+                                    res.json(party);
                                 })
                         }, (err) => next(err));
                 }
@@ -104,7 +119,7 @@ partyRouter.route('/id/:partyId')
             }, (err) => next(err))
             .catch((err) => next(err));
     })
-    .delete(authenticate.verifyUser, (req, res, next) => {
+    .delete(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         Parties.findById(req.params.partyId)
             .then((party) => {
                 if (party === null) {
@@ -127,7 +142,7 @@ partyRouter.route('/id/:partyId')
                                 .then((party) => {
                                     res.statusCode = 200;
                                     res.setHeader('Content-Type', 'application/json');
-                                    res.json(dish);
+                                    res.json(party);
                                 })
                         }, (err) => next(err));
                 }
@@ -146,7 +161,8 @@ partyRouter.route('/id/:partyId')
 
 //========================================Router for /parties/place===================================================
 partyRouter.route('/place/:place')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ place: req.params.place })
             .populate('party.author')
             .then((parties) => {
@@ -159,7 +175,7 @@ partyRouter.route('/place/:place')
 
 //========================================Router for /parties/address===================================================
 partyRouter.route('/address/:address')
-    .get((req, res, next) => {
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ address: req.params.address })
             .populate('party.author')
             .then((parties) => {
@@ -172,7 +188,7 @@ partyRouter.route('/address/:address')
 
 //========================================Router for /parties/date===================================================
 partyRouter.route('/date/:date')
-    .get((req, res, next) => {
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ date: req.params.date })
             .populate('party.author')
             .then((parties) => {
@@ -185,7 +201,8 @@ partyRouter.route('/date/:date')
 
 //========================================Router for /parties/placeAndAddress===================================================
 partyRouter.route('/placeAndAddress/:place/:address')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ place: req.params.place, address: req.params.address })
             .populate('party.author')
             .then((parties) => {
@@ -198,7 +215,8 @@ partyRouter.route('/placeAndAddress/:place/:address')
 
 //========================================Router for /parties/placeAndDate===================================================
 partyRouter.route('/placeAndDate/:place/:date')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ place: req.params.place, date: req.params.date })
             .populate('party.author')
             .then((parties) => {
@@ -211,7 +229,8 @@ partyRouter.route('/placeAndDate/:place/:date')
 
 //========================================Router for /parties/addressAndDate===================================================
 partyRouter.route('/addressAndDate/:address/:date')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ address: req.params.address, date: req.params.date })
             .populate('party.author')
             .then((parties) => {
@@ -224,7 +243,8 @@ partyRouter.route('/addressAndDate/:address/:date')
 
 //========================================Router for /parties/placeAddressAndDate===================================================
 partyRouter.route('/placeAddressAndDate/:place/:address/:date')
-    .get((req, res, next) => {
+    .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
+    .get(cors.cors,(req, res, next) => {
         Parties.find({ place: req.params.place, address: req.params.address, date: req.params.date })
             .populate('party.author')
             .then((parties) => {

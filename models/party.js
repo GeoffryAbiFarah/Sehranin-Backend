@@ -26,11 +26,6 @@ const partySchema = new Schema({
         type: String,
         required: true
     },
-    //doors open at : X
-    open: {
-        type: String,
-        required: true
-    },
     number: {
         type: String,
         required: true
@@ -42,14 +37,10 @@ const partySchema = new Schema({
     },
     image: {
         type: String,
-        required: true
+        default: '../public/images/background-img-party.jpg'
     },
     description: {
         type: String,
-        required: true
-    },
-    drinks: {
-        type: Boolean,
         required: true
     },
     featured: {

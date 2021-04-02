@@ -4,34 +4,21 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const User = new Schema({
-    name: {
+    username: {
         type: String,
-        default: ''
-    },
-    image: {
-        type: String,
-        default: "../public/images/default.jpeg"
+        required: true
     },
     email: {
         type: String,
         required: false
     },
-    age: {
-        type: Number,
-        required: false,
-        min: 16
-    },
     phone: {
-        type: String,
-        default: ''
-    },
-    description: {
         type: String,
         default: ''
     },
     verified: {
         type: Boolean,
-        default: true
+        default: false
     },
     admin: {
         type: Boolean,

@@ -9,7 +9,9 @@ require('dotenv').config()
 
 
 // User.authenticate() from passport local mongoose
-exports.local = passport.use(new LocalStrategy(User.authenticate()), {});
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 
@@ -43,6 +45,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 exports.verifyUser = passport.authenticate('jwt', { session: false });
 
 exports.verifyAdmin = (req, res, next) => {
+    console.log(req.user);
     if (req.user.admin === true) {
         next();
     }
