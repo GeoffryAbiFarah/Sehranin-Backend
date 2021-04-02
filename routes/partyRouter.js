@@ -23,9 +23,9 @@ partyRouter.route('/')
     })
     .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
         req.body.author = req.user._id;
-<<<<<<< HEAD
+
         console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
-=======
+
         if (req.body.image) {
             const myImage = req.body.image;
             myImage.mv(`../public/images/${myImage.name}`, function (err) {
@@ -37,7 +37,7 @@ partyRouter.route('/')
                 return res.send({ name: myFile.name, path: `/${myImage.name}` });
             });
         }
->>>>>>> 33235bb9e09c8ea3b6207f84f3e972e69f38d4fc
+
         Parties.create(req.body)
             .then((party) => {
                 res.statusCode = 200;
