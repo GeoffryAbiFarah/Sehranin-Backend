@@ -22,9 +22,9 @@ partyRouter.route('/')
             .catch((err) => next(err));
     })
     .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
-        req.body.author = req.user._id;
+        req.files.data.author = req.user._id;
 
-        console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
+        //console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
 
         // if (req.files.image) {
         //     const myImage = req.files.image;
@@ -38,8 +38,8 @@ partyRouter.route('/')
         //     });
         // }
 
-        Parties.create(req.body)
-            .populate('party.author')
+        Parties.create(req.files.data)
+            
             .then((party) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
