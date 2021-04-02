@@ -145,7 +145,7 @@ router.post('/login',cors.corsWithOptions, passport.authenticate('local'), (req,
   var token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.json({ success: true, token: token, status: 'You are successfuly logged in!' });
+  res.json({ success: true, token: token, status: 'You are successfuly logged in!', id: req.user._id });
 });
 
 
