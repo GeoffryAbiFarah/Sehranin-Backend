@@ -13,7 +13,7 @@ partyRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => {res.sendStatus(200);})
     .get(cors.cors, (req, res, next) => {
         Parties.find()
-            .populate('party.author')
+            // .populate('party.author')
             .then((parties) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
@@ -22,7 +22,7 @@ partyRouter.route('/')
             .catch((err) => next(err));
     })
     .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
-        req.files.data.author = req.user._id;
+        req.body.author = req.user._id;
 
         //console.log("DATAAAAAAAAAAAAAAAAAA", req.files.data);
 
@@ -38,7 +38,7 @@ partyRouter.route('/')
         //     });
         // }
 
-        Parties.create(req.files.data)
+        Parties.create(req.body)
             
             .then((party) => {
                 res.statusCode = 200;

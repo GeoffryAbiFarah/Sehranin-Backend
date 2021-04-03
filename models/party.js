@@ -31,7 +31,7 @@ const partySchema = new Schema({
         required: true
     },
     price: {
-        type: Currency,
+        type: String,
         required: true,
         min: 0
     },

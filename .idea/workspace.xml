@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed7d440a-f4c5-4dde-b8dd-fbd3653d59fb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/cors.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/cors.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/partyRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/partyRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +58,7 @@
       <workItem from="1617268221039" duration="570000" />
       <workItem from="1617268894221" duration="105000" />
       <workItem from="1617269091515" duration="346000" />
-      <workItem from="1617357383179" duration="107000" />
+      <workItem from="1617357383179" duration="8759000" />
     </task>
     <servers />
   </component>

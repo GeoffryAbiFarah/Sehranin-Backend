@@ -4,8 +4,8 @@ const app = express();
 
 const whitelist = ['http://localhost:3001']
 
-var corsOptionsDelegate = (req, callback) => {
-    var ccorsOptions;
+const corsOptionsDelegate = (req, callback) => {
+    let ccorsOptions;
 
     if (whitelist.indexOf(req.header('Origin')) !== -1) {
         ccorsOptions = { origin: true };
